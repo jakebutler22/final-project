@@ -102,6 +102,7 @@ try {
 
           color-scheme: light dark;
 
+          --vjjl-red: var(--ddd-theme-default-original87Red);
           --vjjl-bg: var(--ddd-theme-default-original87Red);
           --vjjl-header: #ffffff;
           --vjjl-text: #000000;
@@ -117,6 +118,7 @@ try {
             --vjjl-header: #1a1a1a;
             --vjjl-text: #ffffff;
             --vjjl-accent: var(--ddd-theme-default-original87Red);
+            
           }
         }
 
@@ -158,17 +160,6 @@ try {
   height: 100%;
   object-fit: cover;
 }
-
-        nav {
-          display: flex;
-          gap: 2rem;
-        }
-
-
-        nav a:hover {
-          color: var(--ddd-theme-default-original87Red);
-        }
-
         /* Hero / Slideshow */
         .hero {
           position: relative;

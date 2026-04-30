@@ -14,27 +14,26 @@ export class VjjlNavMenu extends DDDSuper(LitElement) {
 }
 
 
-a {
+:host a {
   text-decoration: none;
-  color: var(--ddd-theme-default-original87Red);  
-  font-family: var(--ddd-font-navigation);
+  color: var(--vjjl-red);
+font-family: var(--ddd-font-navigation);
   font-weight: 700;
   padding: var(--ddd-spacing-2);
 }
 
 
-a:hover {
+:host a:hover {
   text-decoration: underline;
+  text-shadow: 0 0 4px var(--vjjl-red);
 }
 
 
-a.active {
-  border-bottom: 3px solid var(--ddd-theme-default-original87Red);
+:host a.active {
+  border-bottom: 3px solid var(--vjjl-red);
 
-  /* 🔥 subtle glow */
-  text-shadow: 0 0 6px var(--ddd-theme-default-original87Red);
+  text-shadow: 0 0 6px var(--vjjl-red);
 
-  /* smooth transition */
   transition: all 0.2s ease;
 }
     `];
@@ -44,10 +43,20 @@ a.active {
     this.dispatchEvent(new CustomEvent("page-changed", { detail: { page }, bubbles: true, composed: true }));
   }
   render() {
-    return html`<nav class="menu">${this.items.map(item => html`
-      <a href="?page=${item.page}" class="${this.currentPage === item.page ? "active" : ""}" 
-         @click="${(e) => this.goToPage(item.page, e)}">${item.title}</a>
-    `)}</nav>`;
-  }
+  return html`
+    <nav class="menu">
+      ${this.items.map(item => html`
+        <a
+          href="?page=${item.page}"
+          style="color: var(--ddd-theme-default-original87Red);"
+          class="${this.currentPage === item.page ? "active" : ""}"
+          @click="${(e) => this.goToPage(item.page, e)}"
+        >
+          ${item.title}
+        </a>
+      `)}
+    </nav>
+  `;
+}
 }
 customElements.define(VjjlNavMenu.tag, VjjlNavMenu);
