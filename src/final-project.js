@@ -1,7 +1,6 @@
 import { LitElement, html, css } from "lit";
 import { DDDSuper } from "@haxtheweb/d-d-d/d-d-d.js";
 import "./components/vjjl-team-card.js";
-import "./components/vjjl-nav-menu.js";
 import "./components/vjjl-logo.js";
 import "./components/vjjl-footer.js";
 import "./components/vjjl-content-band.js";
@@ -28,16 +27,79 @@ export class FinalProject extends DDDSuper(LitElement) {
     this.activeIndex = 0;
     this.schedule = [];
     this.menuItems = [
-      { title: "Home", page: "home" },
-      { title: "Schedule", page: "schedule" },
-      { title: "Teams", page: "team" },
-      { title: "About", page: "about" }
+      { 
+        title: "Home", 
+        page: "home",
+        links: [
+          { label: "Top", section: "top" },
+          { label: "Weekly Schedule", section: "weekly" },
+          { label: "League News", section: "news" },
+          { label: "About Section", section: "about-band" }
+        ]
+      },
+      { 
+        title: "Schedule", 
+        page: "schedule",
+        links: [
+          { label: "Full Calendar", page: "schedule" }
+        ]
+      },
+      { 
+        title: "Teams", 
+        page: "team",
+        links: [
+          { label: "All Teams", page: "team" },
+          { label: "Team Redline", page: "team-redline" },
+          { label: "Clutch Grappling", page: "clutch-grappling" },
+          { label: "Garage Guard", page: "garage-guard" }
+        ]
+      },
+      { 
+        title: "About", 
+        page: "about",
+        links: [
+          { label: "Our Story", page: "about" }
+        ]
+      }
     ];
     this.images = [
       new URL("./assets/slideshowimg.jpg", import.meta.url).href,
       new URL("./assets/slideshowimg1.jpg", import.meta.url).href,
       new URL("./assets/slideshowimg2.jpg", import.meta.url).href
     ];
+
+    // Pre-generate rosters once so names stay stable across re-renders
+    this.rosters = {
+      "TEAM REDLINE": this.generateRoster(),
+      "CLUTCH GRAPPLING": this.generateRoster(),
+      "GARAGE GUARD": this.generateRoster()
+    };
+  }
+
+  generateRandomName() {
+    const firstNames = [
+      "Brad", "Chad", "Connor", "Cody", "Dustin", "Travis", "Hunter", "Cooper",
+      "Wyatt", "Tanner", "Bryce", "Jake", "Tyler", "Logan", "Mason", "Hayden",
+      "Brett", "Trevor", "Garrett", "Ryan", "Brandon", "Kyle", "Austin", "Dalton",
+      "Colton", "Parker", "Carson", "Grant", "Blake", "Ethan", "Jackson", "Brody"
+    ];
+    const lastNames = [
+      "Sullivan", "Brennan", "Walsh", "Murphy", "O'Connor", "Fitzgerald", "Donovan",
+      "Callahan", "Maddox", "Beckett", "Hollister", "Whitaker", "Sinclair", "Ashford",
+      "Pemberton", "Caldwell", "Holloway", "Hartley", "Bradford", "Granger",
+      "Thatcher", "Whitman", "Ellsworth", "Dunbar", "Worthington", "Kensington"
+    ];
+    const first = firstNames[Math.floor(Math.random() * firstNames.length)];
+    const last = lastNames[Math.floor(Math.random() * lastNames.length)];
+    return `${first} ${last}`;
+  }
+
+  generateRoster() {
+    const roles = ["Head Coach", "Featherweight", "Middleweight", "Heavyweight", "Open Division"];
+    return roles.map(role => ({
+      name: this.generateRandomName(),
+      rank: role
+    }));
   }
 
   getViewFromUrl() {
@@ -45,11 +107,21 @@ export class FinalProject extends DDDSuper(LitElement) {
     return params.get("page") || "home";
   }
 
-  goToPage(page) {
+  goToPage(page, section = null) {
     this.view = page;
     const url = new URL(window.location.href);
     url.searchParams.set("page", page);
     window.history.pushState({}, "", url);
+
+    // If a section is provided, scroll to it after rendering
+    if (section) {
+      setTimeout(() => {
+        const el = this.shadowRoot.getElementById(section);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   }
 
   handlePopState = () => {
@@ -96,6 +168,7 @@ export class FinalProject extends DDDSuper(LitElement) {
           --vjjl-header: #ffffff;
           --vjjl-text: #000000;
           --vjjl-accent: #000000;
+          --vjjl-card-bg: #f5f5f5;
           background-color: var(--vjjl-bg);
           color: var(--vjjl-text);
         }
@@ -106,6 +179,7 @@ export class FinalProject extends DDDSuper(LitElement) {
             --vjjl-header: #1a1a1a;
             --vjjl-text: #ffffff;
             --vjjl-accent: var(--ddd-theme-default-original87Red);
+            --vjjl-card-bg: #222222;
           }
         }
 
@@ -142,6 +216,75 @@ export class FinalProject extends DDDSuper(LitElement) {
           width: 100%;
           height: 100%;
           object-fit: cover;
+        }
+
+        /* Dropdown Navigation Styles */
+        nav {
+          display: flex;
+          gap: 1.5rem;
+        }
+
+        .nav-item {
+          position: relative;
+          display: inline-block;
+        }
+
+        .nav-button {
+          background: none;
+          border: none;
+          font-family: inherit;
+          font-size: 1rem;
+          font-weight: bold;
+          text-transform: uppercase;
+          cursor: pointer;
+          padding: 10px;
+          color: var(--vjjl-text);
+          transition: color 0.2s ease;
+        }
+
+        .nav-button:hover {
+          color: var(--vjjl-red);
+        }
+
+        .dropdown-content {
+          display: none;
+          position: absolute;
+          background-color: var(--vjjl-header);
+          min-width: 180px;
+          box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+          z-index: 100;
+          border-top: 3px solid var(--vjjl-red);
+          border-radius: 0 0 4px 4px;
+        }
+
+        .nav-item:hover .dropdown-content {
+          display: block;
+        }
+
+        .dropdown-content a {
+          color: var(--vjjl-text);
+          padding: 12px 16px;
+          text-decoration: none;
+          display: block;
+          font-size: 0.9rem;
+          transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .dropdown-content a:hover {
+          background-color: var(--vjjl-card-bg);
+          color: var(--vjjl-red);
+        }
+
+        /* Interactive Weekly Schedule */
+        vjjl-event-strip {
+          display: block;
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+          border-radius: 8px;
+        }
+
+        vjjl-event-strip:hover {
+          transform: scale(1.01);
+          cursor: pointer;
         }
 
         .home-slideshow {
@@ -185,12 +328,6 @@ export class FinalProject extends DDDSuper(LitElement) {
           text-transform: uppercase;
         }
 
-        .nav-area {
-          display: flex;
-          align-items: center;
-          gap: 1rem;
-        }
-
         .page-section {
           padding: 2rem;
           background: var(--vjjl-header);
@@ -205,6 +342,54 @@ export class FinalProject extends DDDSuper(LitElement) {
           color: var(--vjjl-text);
           margin-top: 0;
           margin-bottom: 0.5rem;
+        }
+
+        .news-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: 2rem;
+          margin-top: 1.5rem;
+        }
+
+        .news-card {
+          background: var(--vjjl-card-bg);
+          /* Injecting the requested background image */
+          background-image: linear-gradient(rgba(245, 245, 245, 0.9), rgba(245, 245, 245, 0.9)), url('image_89b8b8.jpg');
+          background-size: cover;
+          background-position: center;
+          border-left: 5px solid var(--vjjl-red);
+          padding: 1.5rem;
+          border-radius: 4px;
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+          transition: transform 0.3s ease, box-shadow 0.3s ease, border-left-color 0.3s ease;
+          cursor: default;
+        }
+
+        .news-card:hover {
+          transform: translateY(-8px);
+          box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+          border-left-color: #ff4d4d;
+        }
+
+        .news-card h4 {
+          margin: 0 0 10px 0;
+          color: var(--vjjl-red);
+          text-transform: uppercase;
+          font-weight: bold;
+        }
+
+        .news-card p {
+          font-size: 0.95rem;
+          line-height: 1.4;
+          margin-bottom: 0;
+          color: #000; /* Ensuring text stays legible over the background */
+        }
+
+        @media (prefers-color-scheme: dark) {
+          .news-card {
+            background-image: linear-gradient(rgba(34, 34, 34, 0.9), rgba(34, 34, 34, 0.9)), url('image_89b8b8.jpg');
+          }
+          .news-card p { color: #fff; }
         }
 
         .contact-info {
@@ -233,10 +418,7 @@ export class FinalProject extends DDDSuper(LitElement) {
         }
 
         @media (max-width: 768px) {
-          .nav-area {
-            align-items: flex-end;
-            flex-direction: column;
-          }
+          nav { display: none; /* Can add a hamburger menu here later */ }
         }
       `,
     ];
@@ -244,6 +426,7 @@ export class FinalProject extends DDDSuper(LitElement) {
 
   renderHome() {
     return html`
+      <div id="top"></div>
       <section class="home-slideshow">
         ${this.images.map(
           (img, i) => html`
@@ -260,9 +443,29 @@ export class FinalProject extends DDDSuper(LitElement) {
         </div>
       </section>
 
-      <vjjl-event-strip></vjjl-event-strip>
+      <div id="weekly">
+        <vjjl-event-strip></vjjl-event-strip>
+      </div>
 
-      <vjjl-content-band>
+      <vjjl-content-band id="news">
+        <h2>League News</h2>
+        <div class="news-grid">
+          <div class="news-card">
+            <h4>Redline Sweeps Quals</h4>
+            <p>Team Redline absolutely dominated the Thursday night Open Div Qualifiers. Their anchor player pulled off a stunning seatbelt-assisted triangle in the final two minutes, proving that the SUV bracket is still their territory to lose.</p>
+          </div>
+          <div class="news-card">
+            <h4>Rules Committee Update</h4>
+            <p>The VJJL board met this morning to clarify seatbelt usage. Moving forward, "passive tension" from the retractable belt is allowed for posture control, but manual locking for chokes remains the gold standard for technique points.</p>
+          </div>
+          <div class="news-card">
+            <h4>Freehold Open Registration</h4>
+            <p>Sign-ups are officially live for the Freehold Open. We're moving to the larger lot this month to accommodate the Heavyweight division. Grab your mouthpiece and make sure your registration is submitted by Monday night.</p>
+          </div>
+        </div>
+      </vjjl-content-band>
+
+      <vjjl-content-band id="about-band">
         <h2>About the League</h2>
         <p>Vehicular Jiu-Jitsu blends grappling with tactical vehicle positioning.</p>
       </vjjl-content-band>
@@ -273,7 +476,6 @@ export class FinalProject extends DDDSuper(LitElement) {
     return html`
       <section class="page-section">
         <h2>League Full Schedule</h2>
-        <!-- Weekly event strip placed in the previously blank space to tighten layout -->
         <vjjl-event-strip></vjjl-event-strip>
         <vjjl-full-calendar></vjjl-full-calendar>
       </section>
@@ -313,14 +515,14 @@ export class FinalProject extends DDDSuper(LitElement) {
   }
 
   renderRoster(teamName) {
-    const roles = ["Head Coach", "Featherweight", "Middleweight", "Heavyweight", "Open Division"];
+    const roster = this.rosters[teamName] || this.generateRoster();
     return html`
       <section class="page-section">
         <button class="back-btn" @click="${() => this.goToPage('team')}">← Back to Teams</button>
         <h1>${teamName} Roster</h1>
         <div class="card-grid">
-          ${roles.map(role => html`
-            <vjjl-team-card name="TBD" rank="${role}" image=""></vjjl-team-card>
+          ${roster.map(member => html`
+            <vjjl-team-card name="${member.name}" rank="${member.rank}" image=""></vjjl-team-card>
           `)}
         </div>
       </section>
@@ -385,13 +587,22 @@ export class FinalProject extends DDDSuper(LitElement) {
         <button class="logo-container" @click="${() => this.goToPage("home")}">
           <img src="${new URL("./assets/vjjl-logo-cropped.jpg", import.meta.url).href}" alt="VJJL Logo" />
         </button>
-        <div class="nav-area">
-          <vjjl-nav-menu
-            .items=${this.menuItems}
-            .currentPage=${this.view}
-            @page-changed=${(e) => this.goToPage(e.detail.page)}
-          ></vjjl-nav-menu>
-        </div>
+        
+        <!-- New Dropdown Navigation -->
+        <nav>
+          ${this.menuItems.map(item => html`
+            <div class="nav-item">
+              <button class="nav-button" @click="${() => this.goToPage(item.page)}">${item.title}</button>
+              <div class="dropdown-content">
+                ${item.links.map(link => html`
+                  <a href="javascript:void(0)" @click="${() => this.goToPage(link.page || item.page, link.section)}">
+                    ${link.label}
+                  </a>
+                `)}
+              </div>
+            </div>
+          `)}
+        </nav>
       </header>
 
       <main>
