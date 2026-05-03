@@ -1,49 +1,54 @@
 import { LitElement, html, css } from "lit";
 import { DDDSuper } from "@haxtheweb/d-d-d/d-d-d.js";
-import "./vjjl-social-link.js";
 
 export class VjjlFooter extends DDDSuper(LitElement) {
   static get tag() { return "vjjl-footer"; }
 
   static get styles() {
     return [super.styles, css`
-      footer {
-  padding: 2rem;
-  text-align: center;
-  background: var(--vjjl-header);
-  color: var(--vjjl-text);
-  margin-top: 2rem;
-}
-
-.social-corner {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-
-  background: light-dark(#ffffff, #1a1a1a);
-  padding: 0.75rem 1rem;
-  border-radius: 8px;
-  box-shadow: var(--ddd-boxShadow-sm);
-}
+      :host {
+        display: block;
+        padding: 40px 20px;
+        background: #fff;
+        color: #000;
+        border-top: 4px solid var(--ddd-theme-default-original87Red);
+      }
+      .footer-wrap {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .socials {
+        display: flex; /* Horizontal alignment */
+        gap: 40px;
+      }
+      .socials a {
+        text-decoration: none;
+        color: #000;
+        font-weight: 900;
+        text-transform: uppercase;
+        font-size: 1.2rem;
+      }
+      .socials a:hover { color: var(--ddd-theme-default-original87Red); }
+      @media (max-width: 768px) {
+        .footer-wrap { flex-direction: column; gap: 20px; text-align: center; }
+      }
     `];
   }
 
   render() {
     return html`
-      <footer>
+      <div class="footer-wrap">
         <div>© 2026 VJJL</div>
-<div class="social-corner">     
-       <vjjl-social-link name="Instagram"></vjjl-social-link>
-          <vjjl-social-link name="Twitter"></vjjl-social-link>
-          <vjjl-social-link name="YouTube"></vjjl-social-link>
+        <div class="socials">
+          <a href="#">Instagram</a>
+          <a href="#">Twitter</a>
+          <a href="#">YouTube</a>
         </div>
-      </footer>
+      </div>
     `;
   }
 }
-
 customElements.define(VjjlFooter.tag, VjjlFooter);
