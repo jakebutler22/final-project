@@ -68,38 +68,91 @@ export class FinalProject extends DDDSuper(LitElement) {
       new URL("./assets/slideshowimg2.jpg", import.meta.url).href
     ];
 
-    // Pre-generate rosters once so names stay stable across re-renders
     this.rosters = {
-      "TEAM REDLINE": this.generateRoster(),
-      "CLUTCH GRAPPLING": this.generateRoster(),
-      "GARAGE GUARD": this.generateRoster()
-    };
-  }
+  "TEAM REDLINE": [
+    {
+      name: "Austin Hollister",
+      rank: "Head Coach",
+      image: new URL("./assets/rosters/team-redline/austin-hollister.png", import.meta.url).href
+    },
+    {
+      name: "Kyle Caldwell",
+      rank: "Featherweight",
+      image: new URL("./assets/rosters/team-redline/kyle-caldwell.png", import.meta.url).href
+    },
+    {
+      name: "Grant Whitaker",
+      rank: "Middleweight",
+      image: new URL("./assets/rosters/team-redline/grant-whitaker.png", import.meta.url).href
+    },
+    {
+      name: "Logan Whitman",
+      rank: "Heavyweight",
+      image: new URL("./assets/rosters/team-redline/logan-whitman.png", import.meta.url).href
+    },
+    {
+      name: "Trevor Callahan",
+      rank: "Open Division",
+      image: new URL("./assets/rosters/team-redline/trevor-callahan.png", import.meta.url).href
+    }
+  ],
 
-  generateRandomName() {
-    const firstNames = [
-      "Brad", "Chad", "Connor", "Cody", "Dustin", "Travis", "Hunter", "Cooper",
-      "Wyatt", "Tanner", "Bryce", "Jake", "Tyler", "Logan", "Mason", "Hayden",
-      "Brett", "Trevor", "Garrett", "Ryan", "Brandon", "Kyle", "Austin", "Dalton",
-      "Colton", "Parker", "Carson", "Grant", "Blake", "Ethan", "Jackson", "Brody"
-    ];
-    const lastNames = [
-      "Sullivan", "Brennan", "Walsh", "Murphy", "O'Connor", "Fitzgerald", "Donovan",
-      "Callahan", "Maddox", "Beckett", "Hollister", "Whitaker", "Sinclair", "Ashford",
-      "Pemberton", "Caldwell", "Holloway", "Hartley", "Bradford", "Granger",
-      "Thatcher", "Whitman", "Ellsworth", "Dunbar", "Worthington", "Kensington"
-    ];
-    const first = firstNames[Math.floor(Math.random() * firstNames.length)];
-    const last = lastNames[Math.floor(Math.random() * lastNames.length)];
-    return `${first} ${last}`;
-  }
+  "CLUTCH GRAPPLING": [
+    {
+      name: "Hayden Worthington",
+      rank: "Head Coach",
+      image: new URL("./assets/rosters/clutch-grappling/hayden-worthington.png", import.meta.url).href
+    },
+    {
+      name: "Brett Hartley",
+      rank: "Featherweight",
+      image: new URL("./assets/rosters/clutch-grappling/brett-hartley.png", import.meta.url).href
+    },
+    {
+      name: "Austin Sullivan",
+      rank: "Middleweight",
+      image: new URL("./assets/rosters/clutch-grappling/austin-sullivan.png", import.meta.url).href
+    },
+    {
+      name: "Austin Ellsworth",
+      rank: "Heavyweight",
+      image: new URL("./assets/rosters/clutch-grappling/austin-ellsworth.png", import.meta.url).href
+    },
+    {
+      name: "Brandon Holloway",
+      rank: "Open Division",
+      image: new URL("./assets/rosters/clutch-grappling/brandon-holloway.png", import.meta.url).href
+    }
+  ],
 
-  generateRoster() {
-    const roles = ["Head Coach", "Featherweight", "Middleweight", "Heavyweight", "Open Division"];
-    return roles.map(role => ({
-      name: this.generateRandomName(),
-      rank: role
-    }));
+  "GARAGE GUARD": [
+    {
+      name: "Brad Granger",
+      rank: "Head Coach",
+      image: new URL("./assets/rosters/garage-guard/brad-granger.png", import.meta.url).href
+    },
+    {
+      name: "Hayden Granger",
+      rank: "Featherweight",
+      image: new URL("./assets/rosters/garage-guard/hayden-granger.png", import.meta.url).href
+    },
+    {
+      name: "Brad Beckett",
+      rank: "Middleweight",
+      image: new URL("./assets/rosters/garage-guard/brad-beckett.png", import.meta.url).href
+    },
+    {
+      name: "Wyatt Fitzgerald",
+      rank: "Heavyweight",
+      image: new URL("./assets/rosters/garage-guard/wyatt-fitzgerald.png", import.meta.url).href
+    },
+    {
+      name: "Kyle Holloway",
+      rank: "Open Division",
+      image: new URL("./assets/rosters/garage-guard/kyle-holloway.png", import.meta.url).href
+    }
+  ]
+};
   }
 
   getViewFromUrl() {
@@ -515,15 +568,18 @@ export class FinalProject extends DDDSuper(LitElement) {
   }
 
   renderRoster(teamName) {
-    const roster = this.rosters[teamName] || this.generateRoster();
+    const roster = this.rosters[teamName];
     return html`
       <section class="page-section">
         <button class="back-btn" @click="${() => this.goToPage('team')}">← Back to Teams</button>
         <h1>${teamName} Roster</h1>
         <div class="card-grid">
           ${roster.map(member => html`
-            <vjjl-team-card name="${member.name}" rank="${member.rank}" image=""></vjjl-team-card>
-          `)}
+<vjjl-team-card
+  name="${member.name}"
+  rank="${member.rank}"
+  image="${member.image}"
+></vjjl-team-card>          `)}
         </div>
       </section>
     `;
