@@ -17,7 +17,8 @@ export class FinalProject extends DDDSuper(LitElement) {
       view: { type: String },
       activeIndex: { type: Number },
       schedule: { type: Array },
-      menuItems: { type: Array }
+      menuItems: { type: Array },
+      menuOpen: { type: Boolean }
     };
   }
 
@@ -26,7 +27,9 @@ export class FinalProject extends DDDSuper(LitElement) {
     this.view = this.getViewFromUrl();
     this.activeIndex = 0;
     this.schedule = [];
+    this.menuOpen = false;
     this.menuItems = [
+      
       { 
         title: "Home", 
         page: "home",
@@ -470,9 +473,62 @@ export class FinalProject extends DDDSuper(LitElement) {
           color: var(--ddd-theme-default-original87Red);
         }
 
-        @media (max-width: 768px) {
-          nav { display: none; /* Can add a hamburger menu here later */ }
-        }
+        .hamburger {
+  display: none;
+  background: none;
+  border: 2px solid var(--vjjl-accent);
+  color: var(--vjjl-text);
+  font-size: 1.8rem;
+  padding: 0.4rem 0.7rem;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+@media (max-width: 768px) {
+  header {
+    position: relative;
+  }
+
+  .hamburger {
+    display: block;
+  }
+
+  nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 1rem;
+    left: 1rem;
+    background: var(--vjjl-header);
+    border: 2px solid var(--vjjl-accent);
+    border-radius: 8px;
+    padding: 1rem;
+    z-index: 999;
+    flex-direction: column;
+  }
+
+  nav.open {
+    display: flex;
+  }
+
+  .nav-item {
+    width: 100%;
+  }
+
+  .nav-button {
+    width: 100%;
+    text-align: left;
+  }
+
+  .dropdown-content {
+    position: static;
+    display: block;
+    box-shadow: none;
+    border-top: none;
+    background: transparent;
+    padding-left: 1rem;
+  }
+}
       `,
     ];
   }
@@ -638,36 +694,60 @@ export class FinalProject extends DDDSuper(LitElement) {
   }
 
   render() {
-    return html`
-      <header>
-        <button class="logo-container" @click="${() => this.goToPage("home")}">
-          <img src="${new URL("./assets/vjjl-logo-cropped.jpg", import.meta.url).href}" alt="VJJL Logo" />
-        </button>
-        
-        <!-- New Dropdown Navigation -->
-        <nav>
-          ${this.menuItems.map(item => html`
-            <div class="nav-item">
-              <button class="nav-button" @click="${() => this.goToPage(item.page)}">${item.title}</button>
-              <div class="dropdown-content">
-                ${item.links.map(link => html`
-                  <a href="javascript:void(0)" @click="${() => this.goToPage(link.page || item.page, link.section)}">
-                    ${link.label}
-                  </a>
-                `)}
-              </div>
+  return html`
+    <header>
+      <button class="logo-container" @click="${() => this.goToPage("home")}">
+        <img
+          src="${new URL("./assets/vjjl-logo-cropped.jpg", import.meta.url).href}"
+          alt="VJJL Logo"
+        />
+      </button>
+
+      <button
+        class="hamburger"
+        @click="${() => (this.menuOpen = !this.menuOpen)}"
+      >
+        ☰
+      </button>
+
+      <nav class="${this.menuOpen ? "open" : ""}">
+        ${this.menuItems.map(item => html`
+          <div class="nav-item">
+            <button
+              class="nav-button"
+              @click="${() => {
+                this.goToPage(item.page);
+                this.menuOpen = false;
+              }}"
+            >
+              ${item.title}
+            </button>
+
+            <div class="dropdown-content">
+              ${item.links.map(link => html`
+                <a
+                  href="javascript:void(0)"
+                  @click="${() => {
+                    this.goToPage(link.page || item.page, link.section);
+                    this.menuOpen = false;
+                  }}"
+                >
+                  ${link.label}
+                </a>
+              `)}
             </div>
-          `)}
-        </nav>
-      </header>
+          </div>
+        `)}
+      </nav>
+    </header>
 
-      <main>
-        ${this.renderView()}
-      </main>
+    <main>
+      ${this.renderView()}
+    </main>
 
-      <vjjl-footer></vjjl-footer>
-    `;
-  }
+    <vjjl-footer></vjjl-footer>
+  `;
+}
 }
 
 customElements.define(FinalProject.tag, FinalProject);
