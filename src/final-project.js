@@ -73,27 +73,27 @@ export class FinalProject extends DDDSuper(LitElement) {
     {
       name: "Austin Hollister",
       rank: "Head Coach",
-      image: new URL("./assets/rosters/team-redline/austin-hollister.png", import.meta.url).href
+      image: new URL("./assets/rosters/vjjl_player_images/team-redline/austin-hollister.png", import.meta.url).href
     },
     {
       name: "Kyle Caldwell",
       rank: "Featherweight",
-      image: new URL("./assets/rosters/team-redline/kyle-caldwell.png", import.meta.url).href
+      image: new URL("./assets/rosters/vjjl_player_images/team-redline/kyle-caldwell.png", import.meta.url).href
     },
     {
       name: "Grant Whitaker",
       rank: "Middleweight",
-      image: new URL("./assets/rosters/team-redline/grant-whitaker.png", import.meta.url).href
+      image: new URL("./assets/rosters/vjjl_player_images/team-redline/grant-whitaker.png", import.meta.url).href
     },
     {
       name: "Logan Whitman",
       rank: "Heavyweight",
-      image: new URL("./assets/rosters/team-redline/logan-whitman.png", import.meta.url).href
+      image: new URL("./assets/rosters/vjjl_player_images/team-redline/logan-whitman.png", import.meta.url).href
     },
     {
       name: "Trevor Callahan",
       rank: "Open Division",
-      image: new URL("./assets/rosters/team-redline/trevor-callahan.png", import.meta.url).href
+      image: new URL("./assets/rosters/vjjl_player_images/team-redline/trevor-callahan.png", import.meta.url).href
     }
   ],
 
@@ -101,27 +101,27 @@ export class FinalProject extends DDDSuper(LitElement) {
     {
       name: "Hayden Worthington",
       rank: "Head Coach",
-      image: new URL("./assets/rosters/clutch-grappling/hayden-worthington.png", import.meta.url).href
+      image: new URL("./assets/rosters/vjjl_player_images/clutch-grappling/hayden-worthington.png", import.meta.url).href
     },
     {
       name: "Brett Hartley",
       rank: "Featherweight",
-      image: new URL("./assets/rosters/clutch-grappling/brett-hartley.png", import.meta.url).href
+      image: new URL("./assets/rosters/vjjl_player_images/clutch-grappling/brett-hartley.png", import.meta.url).href
     },
     {
       name: "Austin Sullivan",
       rank: "Middleweight",
-      image: new URL("./assets/rosters/clutch-grappling/austin-sullivan.png", import.meta.url).href
+      image: new URL("./assets/rosters/vjjl_player_images/clutch-grappling/austin-sullivan.png", import.meta.url).href
     },
     {
       name: "Austin Ellsworth",
       rank: "Heavyweight",
-      image: new URL("./assets/rosters/clutch-grappling/austin-ellsworth.png", import.meta.url).href
+      image: new URL("./assets/rosters/vjjl_player_images/clutch-grappling/austin-ellsworth.png", import.meta.url).href
     },
     {
       name: "Brandon Holloway",
       rank: "Open Division",
-      image: new URL("./assets/rosters/clutch-grappling/brandon-holloway.png", import.meta.url).href
+      image: new URL("./assets/rosters/vjjl_player_images/clutch-grappling/brandon-holloway.png", import.meta.url).href
     }
   ],
 
@@ -129,27 +129,27 @@ export class FinalProject extends DDDSuper(LitElement) {
     {
       name: "Brad Granger",
       rank: "Head Coach",
-      image: new URL("./assets/rosters/garage-guard/brad-granger.png", import.meta.url).href
+      image: new URL("./assets/rosters/vjjl_player_images/garage-guard/brad-granger.png", import.meta.url).href
     },
     {
       name: "Hayden Granger",
       rank: "Featherweight",
-      image: new URL("./assets/rosters/garage-guard/hayden-granger.png", import.meta.url).href
+      image: new URL("./assets/rosters/vjjl_player_images/garage-guard/hayden-granger.png", import.meta.url).href
     },
     {
       name: "Brad Beckett",
       rank: "Middleweight",
-      image: new URL("./assets/rosters/garage-guard/brad-beckett.png", import.meta.url).href
+      image: new URL("./assets/rosters/vjjl_player_images/garage-guard/brad-beckett.png", import.meta.url).href
     },
     {
       name: "Wyatt Fitzgerald",
       rank: "Heavyweight",
-      image: new URL("./assets/rosters/garage-guard/wyatt-fitzgerald.png", import.meta.url).href
+      image: new URL("./assets/rosters/vjjl_player_images/garage-guard/wyatt-fitzgerald.png", import.meta.url).href
     },
     {
       name: "Kyle Holloway",
       rank: "Open Division",
-      image: new URL("./assets/rosters/garage-guard/kyle-holloway.png", import.meta.url).href
+      image: new URL("./assets/rosters/vjjl_player_images/garage-guard/kyle-holloway.png", import.meta.url).href
     }
   ]
 };
